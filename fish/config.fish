@@ -4,17 +4,25 @@
 # ==============================================================================
 
 # Homebrew shellenv without spawning brew on every shell startup.
-set -gx HOMEBREW_PREFIX /opt/homebrew
-set -gx HOMEBREW_CELLAR /opt/homebrew/Cellar
-set -gx HOMEBREW_REPOSITORY /opt/homebrew
-if not contains /opt/homebrew/share/info $INFOPATH
-    set -gx INFOPATH /opt/homebrew/share/info $INFOPATH
+# macOS (Apple Silicon) or Linux/WSL prefix; nothing is set if neither exists.
+if test -d /opt/homebrew
+    set -gx HOMEBREW_PREFIX /opt/homebrew
+else if test -d /home/linuxbrew/.linuxbrew
+    set -gx HOMEBREW_PREFIX /home/linuxbrew/.linuxbrew
+end
+if set -q HOMEBREW_PREFIX
+    set -gx HOMEBREW_CELLAR $HOMEBREW_PREFIX/Cellar
+    set -gx HOMEBREW_REPOSITORY $HOMEBREW_PREFIX
+    test -d $HOMEBREW_PREFIX/Homebrew; and set -gx HOMEBREW_REPOSITORY $HOMEBREW_PREFIX/Homebrew
+    if not contains $HOMEBREW_PREFIX/share/info $INFOPATH
+        set -gx INFOPATH $HOMEBREW_PREFIX/share/info $INFOPATH
+    end
 end
 
 # PATH: prepend in priority order (--move re-orders entries path_helper already added).
 # --path = session-only, no universal-variable
 # writes. Directories that don't exist on this machine are skipped.
-fish_add_path --move --path /opt/homebrew/bin /opt/homebrew/sbin ~/.local/bin \
+fish_add_path --move --path $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin ~/.local/bin \
     ~/.opencode/bin \
     ~/.kimi-code/bin \
     /Applications/Cursor.app/Contents/Resources/app/bin \
