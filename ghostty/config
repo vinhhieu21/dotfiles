@@ -1,0 +1,70 @@
+# Non-default values only. Defaults: `ghostty +show-config --default`, `ghostty +list-keybinds --default`
+
+# --- Font ---
+font-family = "JetBrainsMono NF"
+font-size = 15
+font-thicken = true
+font-style = "Medium"
+font-style-bold = "Bold"
+
+# --- Window / theme ---
+theme = Everforest Dark Hard
+window-padding-x = 16
+window-padding-y = 14
+window-padding-balance = true
+window-padding-color = extend
+window-save-state = always
+resize-overlay = never
+macos-titlebar-proxy-icon = hidden
+# Tabs merged into titlebar (single row). If tabs partially vanish: ghostty#12949, fixed post-1.3.1 (nightly ghostty@tip)
+macos-titlebar-style = tabs
+# tip channel: macOS 27 titlebar-tabs fix (ghostty#13069) not in 1.3.1. Needs full restart.
+auto-update-channel = tip
+
+# --- Cursor: solid block everywhere (stop shell integration switching to bar at prompt) ---
+cursor-style-blink = false
+shell-integration-features = no-cursor,sudo
+
+# --- Scrollback: ~100MB (default 10MB) — long build/log output ---
+scrollback-limit = 100000000
+
+# --- Splits ---
+unfocused-split-opacity = 0.6
+unfocused-split-fill = #000000
+split-divider-color = #3a3a3a
+
+# --- Behavior ---
+macos-option-as-alt = true
+mouse-hide-while-typing = true
+copy-on-select = clipboard
+app-notifications = no-clipboard-copy,no-config-reload
+quick-terminal-animation-duration = 0
+
+# --- Tabs ---
+keybind = super+shift+left=move_tab:-1
+keybind = super+shift+right=move_tab:1
+
+# --- Splits (defaults: cmd+d/cmd+shift+d new, cmd+opt+arrows goto, cmd+shift+enter zoom) ---
+keybind = cmd+ctrl+left=resize_split:left,20
+keybind = cmd+ctrl+right=resize_split:right,20
+keybind = cmd+ctrl+up=resize_split:up,20
+keybind = cmd+ctrl+down=resize_split:down,20
+keybind = cmd+alt+equal=equalize_splits
+
+# --- Scrollback ---
+keybind = cmd+shift+up=scroll_page_up
+keybind = cmd+shift+down=scroll_page_down
+keybind = cmd+shift+home=scroll_to_top
+keybind = cmd+shift+end=scroll_to_bottom
+keybind = cmd+shift+s=write_scrollback_file:open
+
+# --- Line editing (readline bytes: C-a, C-e, C-u, C-k) ---
+keybind = cmd+left=text:\x01
+keybind = cmd+right=text:\x05
+keybind = cmd+backspace=text:\x15
+keybind = cmd+delete=text:\x0b
+
+# --- Window / app ---
+keybind = cmd+ctrl+f=unbind
+keybind = cmd+shift+i=inspector:toggle
+keybind = global:cmd+grave_accent=toggle_quick_terminal

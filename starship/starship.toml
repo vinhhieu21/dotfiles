@@ -1,0 +1,33 @@
+# Only modules listed in `format` run; everything else is implicitly off.
+format = "$directory$git_branch$git_status$character"
+right_format = "$cmd_duration"
+add_newline = false
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[directory]
+truncation_length = 2
+truncate_to_repo = true
+style = "blue"
+
+[git_branch]
+format = " [$branch]($style) "
+
+[git_status]
+format = "([\\[$all_status$ahead_behind\\]]($style) )"
+conflicted = "="
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+style = "red"
+
+[cmd_duration]
+min_time = 1000
+format = " [$duration]($style)"

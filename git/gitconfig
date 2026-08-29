@@ -1,0 +1,50 @@
+[user]
+	name = Hieu Bui Vinh
+	email = buivinhhieu217@gmail.com
+[core]
+	excludesfile = ~/.config/git/ignore
+	untrackedCache = true
+	fsmonitor = true
+	autocrlf = input
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+	writeCommitGraph = true
+[feature]
+	manyFiles = true
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
+[merge]
+	conflictstyle = zdiff3
+[branch]
+	sort = -committerdate
+[help]
+	autocorrect = 1
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[alias]
+	co = checkout
+	br = branch
+	st = status
+	ci = commit
+	unstage = restore --staged
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+# Machine-specific overrides (work identity, signing key). Untracked; see gitconfig.local.example.
+[include]
+	path = ~/.gitconfig.local

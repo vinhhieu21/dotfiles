@@ -1,0 +1,130 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)",
+      "Bash(git branch*)",
+      "Bash(git rev-parse*)",
+      "Bash(git remote*)",
+      "Bash(git stash list*)",
+      "Bash(ls*)",
+      "Bash(pwd)",
+      "Bash(cat*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(wc*)",
+      "Bash(find*)",
+      "Bash(grep*)",
+      "Bash(rg*)",
+      "Bash(fd*)",
+      "Bash(tree*)",
+      "Bash(jq*)",
+      "Bash(yq*)",
+      "Bash(which*)",
+      "Bash(echo*)",
+      "Bash(printenv*)",
+      "Bash(env)",
+      "Bash(go version)",
+      "Bash(go vet*)",
+      "Bash(go test*)",
+      "Bash(go build*)",
+      "Bash(go mod tidy)",
+      "Bash(java -version)",
+      "Bash(./mvnw*)",
+      "Bash(./gradlew*)",
+      "Bash(mvn -v)",
+      "Bash(gradle -v)",
+      "Bash(python --version)",
+      "Bash(python3 --version)",
+      "Bash(pytest*)",
+      "Bash(pip list*)",
+      "Bash(uv*)",
+      "Bash(node --version)",
+      "Bash(npm test*)",
+      "Bash(npm run*)",
+      "Bash(pnpm*)",
+      "Bash(docker ps*)",
+      "Bash(docker images*)",
+      "Bash(docker logs*)",
+      "Bash(kubectl get*)",
+      "Bash(kubectl describe*)",
+      "Bash(kubectl logs*)",
+      "Bash(gh pr view*)",
+      "Bash(gh pr list*)",
+      "Bash(gh pr diff*)",
+      "Bash(gh pr checks*)",
+      "Bash(gh issue view*)",
+      "Bash(gh issue list*)",
+      "Bash(gh run view*)",
+      "Bash(gh run list*)",
+      "Bash(gh api*)",
+      "Bash(tmux:*)",
+      "Skill(claude-api)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:pkg.go.dev)",
+      "WebFetch(domain:docs.spring.io)",
+      "WebFetch(domain:docs.python.org)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~/*)",
+      "Bash(rm -rf $HOME*)",
+      "Bash(git push --force origin main*)",
+      "Bash(git push --force origin master*)",
+      "Bash(git push -f origin main*)",
+      "Bash(git push -f origin master*)",
+      "Bash(git reset --hard origin/main*)",
+      "Bash(git reset --hard origin/master*)",
+      "Bash(git branch -D main)",
+      "Bash(git branch -D master)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "claude-fable-5[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "node ${CLAUDE_CONFIG_DIR:-$HOME/.claude}/hud/omc-hud.mjs"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "jdtls-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "caveman@caveman": true,
+    "oh-my-claudecode@omc": true
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      },
+      "autoUpdate": true
+    },
+    "omc": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/Yeachan-Heo/oh-my-claudecode.git"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "xhigh",
+  "autoCompactWindow": 200000,
+  "tui": "fullscreen",
+  "autoDreamEnabled": true,
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
+  "autoCompactEnabled": true,
+  "fileCheckpointingEnabled": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
+}

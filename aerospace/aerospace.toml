@@ -1,0 +1,239 @@
+config-version = 2
+
+# Start AeroSpace at login
+start-at-login = true
+
+# In config-version 2 persistent workspaces are no longer inferred from key bindings
+persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+# Normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Layout Settings
+accordion-padding = 40
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# Mouse Behavior
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
+# --- Floating Rules (Popups / System) ---
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.SystemSettings'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AppStore'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.riotgames.RiotGames.RiotClient'
+run = 'layout floating'
+
+# =========================================================
+# APP ROUTING (The "Work" Logic)
+# =========================================================
+
+# --- Workspace Routing ---
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.intellij'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = ['move-node-to-workspace 3', 'layout floating']
+
+[[on-window-detected]]
+if.app-id = 'dev.zed.Zed'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'com.mongodb.compass'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-id = 'com.usebruno.app'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace 8'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace 9'
+
+# =========================================================
+# MONITOR ASSIGNMENTS
+# =========================================================
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = 'main'
+
+# Mac
+8 = 'built-in'
+9 = 'built-in'
+10 = 'built-in'
+
+# =========================================================
+# KEY MAPPINGS
+# =========================================================
+[key-mapping]
+preset = 'qwerty'
+
+[gaps]
+inner.horizontal = 3
+inner.vertical = 3
+outer.left = 3
+outer.bottom = 3
+outer.top = 3
+outer.right = 3
+
+[mode.main.binding]
+# Layouts
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+alt-shift-enter = 'fullscreen'
+ctrl-cmd-f = 'fullscreen'
+alt-ctrl-f = 'layout floating tiling'
+alt-b = 'balance-sizes'
+
+# Fullscreen Exit Controls
+alt-esc = 'fullscreen off'
+alt-shift-esc = ['fullscreen off', 'macos-native-fullscreen off']
+
+# Focus Movement (Vim Style)
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# Move Windows
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Join Windows
+alt-shift-left = 'join-with left'
+alt-shift-down = 'join-with down'
+alt-shift-up = 'join-with up'
+alt-shift-right = 'join-with right'
+
+# Resize Steps
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# Workspace Switching
+alt-tab = 'workspace-back-and-forth'
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+alt-ctrl-h = 'focus-monitor --wrap-around left'
+alt-ctrl-l = 'focus-monitor --wrap-around right'
+
+# Force Workspace Switching (exits fullscreen first)
+alt-ctrl-1 = ['fullscreen off', 'workspace 1']
+alt-ctrl-2 = ['fullscreen off', 'workspace 2']
+alt-ctrl-3 = ['fullscreen off', 'workspace 3']
+alt-ctrl-4 = ['fullscreen off', 'workspace 4']
+alt-ctrl-5 = ['fullscreen off', 'workspace 5']
+alt-ctrl-6 = ['fullscreen off', 'workspace 6']
+alt-ctrl-7 = ['fullscreen off', 'workspace 7']
+alt-ctrl-8 = ['fullscreen off', 'workspace 8']
+alt-ctrl-9 = ['fullscreen off', 'workspace 9']
+alt-ctrl-0 = ['fullscreen off', 'workspace 10']
+
+# Move Window to Workspace
+alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+alt-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+alt-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+alt-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+alt-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
+alt-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
+alt-ctrl-shift-h = 'move-node-to-monitor --wrap-around left'
+alt-ctrl-shift-l = 'move-node-to-monitor --wrap-around right'
+
+# Utilities
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+alt-shift-semicolon = 'mode service'
+
+# App Shortcuts (mnemonic)
+alt-ctrl-t = 'exec-and-forget open -a /Applications/Ghostty.app'
+alt-t = 'exec-and-forget open -a /Applications/Telegram.app'
+alt-f = 'exec-and-forget open -a /System/Library/CoreServices/Finder.app'
+alt-i = 'exec-and-forget open -a "/Applications/IntelliJ IDEA.app"'
+alt-a = 'exec-and-forget open -a /Applications/Arc.app'
+alt-n = 'exec-and-forget open -a /Applications/Notes.app'
+alt-m = 'exec-and-forget open -a /Applications/Mail.app'
+alt-z = 'exec-and-forget open -a /Applications/Zed.app'
+alt-s = 'exec-and-forget open -a Safari'
+alt-g = 'exec-and-forget open -a /Applications/Google\ Chrome.app'
+
+# App Shortcuts (left-hand row: Q W E R / D C)
+alt-q = 'exec-and-forget open -a "/Applications/IntelliJ IDEA.app"'   # Q = main IDE
+alt-w = 'exec-and-forget open -a /Applications/Arc.app'               # W = browser
+alt-e = 'exec-and-forget open -a /Applications/Ghostty.app'           # E = terminal
+alt-r = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'  # R = ultimate editor
+alt-d = 'exec-and-forget open -a /Applications/Bruno.app'             # D = API client
+alt-c = 'exec-and-forget open -a "/Applications/MongoDB Compass.app"' # C = database
+
+# Service Mode
+[mode.service.binding]
+esc = 'mode main'
+r = ['reload-config', 'mode main']
+space = ['flatten-workspace-tree', 'mode main']
+b = ['balance-sizes', 'mode main']
+f = ['layout floating tiling', 'mode main']
+backspace = ['close-all-windows-but-current', 'mode main']
+
+# Fullscreen Controls
+shift-f = ['fullscreen off', 'mode main']
+shift-n = 'macos-native-fullscreen off'

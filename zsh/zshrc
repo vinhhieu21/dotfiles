@@ -1,0 +1,8 @@
+# Interactive zsh (fallback shell; fish is primary — see fish/config.fish for the full setup).
+
+# Colima docker socket — Testcontainers/docker-java need it. Only where colima is set up.
+if [ -d "$HOME/.colima/default" ]; then
+    export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
+    export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE="$HOME/.colima/default/docker.sock"
+    export TESTCONTAINERS_RYUK_DISABLED=true
+fi

@@ -1,0 +1,198 @@
+" leader
+nnoremap <space> <nop>
+let mapleader="\<space>"
+
+" core vim
+set scrolloff=5
+set history=1000
+set showmode
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set gdefault
+
+" ideavim
+set ideajoin
+set ideamarks
+set idearefactormode=normal
+set ideastatusicon=gray
+
+" escape
+inoremap jk <Esc>
+inoremap <C-j> <Esc>
+
+" search
+nnoremap <leader>nh :noh<CR>
+nnoremap <leader>ss <Action>(SearchEverywhere)
+nnoremap <leader>sg <Action>(FindInPath)
+nnoremap <leader>sr <Action>(ReplaceInPath)
+nnoremap <leader>sw <Action>(FindUsages)
+nnoremap <leader>sW <Action>(ShowUsages)
+nnoremap <leader>sc <Action>(GotoClass)
+nnoremap <leader>sb <Action>(RecentLocations)
+
+" files
+nnoremap <leader><leader> <Action>(GotoFile)
+nnoremap <leader>ff <Action>(GotoFile)
+nnoremap <leader>fF <Action>(OpenFile)
+nnoremap <leader>fr <Action>(RecentFiles)
+nnoremap <leader>fR <Action>(ManageRecentProjects)
+nnoremap <leader>fs <Action>(FileStructurePopup)
+nnoremap <leader>fp <Action>(ShowFilePath)
+nnoremap <leader>fP <Action>(CopyAbsolutePath)
+nnoremap <leader>fh <Action>(LocalHistory.ShowHistory)
+nnoremap <leader>fe <Action>(SelectIn)
+
+" buffers
+nnoremap [b <Action>(PreviousTab)
+nnoremap ]b <Action>(NextTab)
+nnoremap <leader>bb <Action>(RecentFiles)
+nnoremap <leader>bd <Action>(CloseContent)
+nnoremap <leader>bo <Action>(CloseAllEditorsButActive)
+nnoremap <leader>ba <Action>(CloseAllEditors)
+nnoremap <leader>bp <Action>(PinActiveEditorTab)
+nnoremap <leader>bP <Action>(CloseAllUnpinnedEditors)
+nnoremap <leader>bn <Action>(NextTab)
+nnoremap <leader>bN <Action>(PreviousTab)
+nnoremap <leader>1 <Action>(GoToTab1)
+nnoremap <leader>2 <Action>(GoToTab2)
+nnoremap <leader>3 <Action>(GoToTab3)
+nnoremap <leader>4 <Action>(GoToTab4)
+nnoremap <leader>5 <Action>(GoToTab5)
+nnoremap <leader>6 <Action>(GoToTab6)
+nnoremap <leader>7 <Action>(GoToTab7)
+nnoremap <leader>8 <Action>(GoToTab8)
+nnoremap <leader>9 <Action>(GoToTab9)
+
+" windows
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <leader>ww <Action>(NextSplitter)
+nnoremap <leader>wp <Action>(JumpToLastWindow)
+nnoremap <leader>w- <Action>(SplitHorizontally)
+nnoremap <leader>w<Bar> <Action>(SplitVertically)
+nnoremap <leader>wd <Action>(Unsplit)
+nnoremap <leader>wo <Action>(UnsplitAll)
+nnoremap <leader>wm <Action>(MaximizeEditorInSplit)
+nnoremap <leader>wu <Action>(HideAllWindows)
+nnoremap <leader>wh <Action>(StretchSplitToLeft)
+nnoremap <leader>wj <Action>(StretchSplitToBottom)
+nnoremap <leader>wk <Action>(StretchSplitToTop)
+nnoremap <leader>wl <Action>(StretchSplitToRight)
+
+" navigation
+nnoremap <C-o> <Action>(Back)
+nnoremap <C-i> <Action>(Forward)
+nnoremap gd <Action>(GotoDeclaration)
+nnoremap gD <Action>(GotoTypeDeclaration)
+nnoremap gr <Action>(ShowUsages)
+nnoremap gR <Action>(FindUsages)
+nnoremap gi <Action>(GotoImplementation)
+nnoremap gI <Action>(QuickImplementations)
+nnoremap go <Action>(GotoSuperMethod)
+nnoremap gt <Action>(GoToTest)
+nnoremap gT <Action>(TextSearchAction)
+nnoremap ga <Action>(GotoAction)
+nnoremap gs <Action>(GotoSymbol)
+nnoremap gn <Action>(ShowNavBar)
+nnoremap [g <Action>(GotoPreviousError)
+nnoremap ]g <Action>(GotoNextError)
+nnoremap [u <Action>(GotoPrevElementUnderCaretUsage)
+nnoremap ]u <Action>(GotoNextElementUnderCaretUsage)
+nnoremap [m <Action>(MethodUp)
+nnoremap ]m <Action>(MethodDown)
+nnoremap [c <Action>(JumpToLastChange)
+nnoremap ]c <Action>(JumpToNextChange)
+nnoremap K <Action>(QuickJavaDoc)
+
+" code
+nnoremap <leader>ca <Action>(ShowIntentionActions)
+nnoremap <leader>cc <Action>(CommentByLineComment)
+xnoremap <leader>cc <Action>(CommentByLineComment)
+nnoremap <leader>cC <Action>(CommentByBlockComment)
+xnoremap <leader>cC <Action>(CommentByBlockComment)
+nnoremap <leader>cd <Action>(ShowErrorDescription)
+nnoremap <leader>cf <Action>(ReformatCode)
+nnoremap <leader>cg <Action>(Generate)
+nnoremap <leader>ci <Action>(OptimizeImports)
+nnoremap <leader>cI <Action>(InspectCode)
+nnoremap <leader>cm <Action>(ImplementMethods)
+nnoremap <leader>cM <Action>(OverrideMethods)
+nnoremap <leader>co <Action>(SelectAllOccurrences)
+nnoremap <leader>cr <Action>(RenameElement)
+nnoremap <leader>cR <Action>(Refactorings.QuickListPopupAction)
+nnoremap <leader>cs <Action>(SurroundWith)
+xnoremap <leader>cs <Action>(SurroundWith)
+nnoremap <leader>cu <Action>(Unwrap)
+nnoremap <leader>ct <Action>(GoToTest)
+
+" run and debug
+nnoremap <leader>rr <Action>(ContextRun)
+nnoremap <leader>rR <Action>(Rerun)
+nnoremap <leader>rx <Action>(ChooseRunConfiguration)
+nnoremap <leader>rt <Action>(RunTests)
+nnoremap <leader>rs <Action>(Stop)
+nnoremap <leader>dc <Action>(ContextDebug)
+nnoremap <leader>dr <Action>(Debug)
+nnoremap <leader>db <Action>(ToggleLineBreakpoint)
+nnoremap <leader>dB <Action>(ViewBreakpoints)
+nnoremap <leader>de <Action>(EditBreakpoint)
+
+" git and vcs
+nnoremap <leader>gg <Action>(VcsGroups)
+
+" ui and tools
+nnoremap <leader>uz <Action>(ToggleZenMode)
+nnoremap <leader>tt <Action>(ActivateTerminalToolWindow)
+nnoremap <leader>tT <Action>(Terminal.OpenInTerminal)
+nnoremap <leader>to <Action>(ActivateTODOToolWindow)
+nnoremap <leader>mm <Action>(MainMenu)
+nnoremap <leader>fm <Action>(ShowBookmarks)
+nnoremap mM <Action>(ToggleBookmark)
+
+" folds
+nnoremap zz <Action>(EditorScrollToCenter)
+nnoremap za <Action>(ExpandCollapseToggleAction)
+nnoremap zc <Action>(CollapseAllRegions)
+nnoremap zo <Action>(ExpandAllRegions)
+
+" plugin actions
+nnoremap <leader>rg <Action>(Gradle.ExecuteTask)
+nnoremap \jl <Action>(EditorJoinLines)
+nnoremap \v <Action>(VimActions)
+nnoremap \cg <Action>(Github.Create.Gist)
+
+" translation (requires Translation plugin)
+nnoremap \tt <Action>($ShowTranslationDialogAction)
+nnoremap \ts <Action>($TranslateTextComponent)
+nnoremap \ti <Action>($InclusiveTranslateAction)
+nnoremap \te <Action>($ExclusiveTranslateAction)
+
+" string manipulation (requires String Manipulation plugin)
+nnoremap <leader>xs <Action>(osmedile.intellij.stringmanip.PopupChoiceAction)
+
+" code screenshot (requires Code Screenshots plugin)
+nnoremap \cs <Action>(one.util.ideaplugin.screenshoter.CopyImageAction)
+
+" bundled plugins
+set vim-paragraph-motion
+set textobj-indent
+set argtextobj
+set easymotion
+set highlightedyank
+let g:highlightedyank_highlight_duration = "1000"
+let g:highlightedyank_highlight_color = "rgba(57, 197, 187, 155)"
+set surround
+set exchange
+set NERDTree
+set ReplaceWithRegister
+
+" visual mode
+xnoremap < <gv
+xnoremap > >gv
+
+" clipboard
+nnoremap <leader>yA ggVG"+y

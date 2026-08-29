@@ -1,0 +1,144 @@
+# Codex (CLI + desktop) config — shared intent only.
+# install.sh copies this to ~/.codex/config.toml ONLY if that file is missing: codex rewrites
+# its config with runtime state (project trust, marketplaces, hook hashes, model NUX), so it
+# is not symlinked. Secrets never live here — MCP keys come from the environment.
+
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+plan_mode_reasoning_effort = "xhigh"
+approvals_reviewer = "auto_review"
+tool_output_token_limit = 12000
+web_search = "cached"
+
+# Work profile: set `model_provider = "openrouter"` (+ model) on that machine. The `codex`
+# fish wrapper injects OPENROUTER_API_KEY from the macOS keychain.
+[model_providers.openrouter]
+name = "openrouter"
+base_url = "https://openrouter.ai/api/v1"
+env_key = "OPENROUTER_API_KEY"
+wire_api = "responses"
+
+[features]
+hooks = true
+terminal_resize_reflow = true
+memories = true
+network_proxy = true
+external_migration = true
+mentions_v2 = true
+prevent_idle_sleep = true
+js_repl = false
+
+[agents]
+max_concurrent_threads_per_session = 6
+max_depth = 2
+job_max_runtime_seconds = 120
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "medium"
+
+[tui]
+theme = "coldark-dark"
+status_line = [
+  "current-dir",
+  "git-branch",
+  "model-with-reasoning",
+  "context-used",
+  "used-tokens",
+]
+status_line_use_colors = true
+
+[notice]
+hide_full_access_warning = true
+
+# Bundled skills that only add noise.
+[[skills.config]]
+name = "imagegen"
+enabled = false
+
+[[skills.config]]
+name = "plugin-creator"
+enabled = false
+
+[[skills.config]]
+name = "skill-creator"
+enabled = false
+
+[[skills.config]]
+name = "skill-installer"
+enabled = false
+
+[[skills.config]]
+name = "find-skills"
+enabled = false
+
+[mcp_servers.code-review-graph]
+command = "code-review-graph"
+args = ["serve"]
+
+[mcp_servers.code-review-graph.tools.build_or_update_graph_tool]
+approval_mode = "approve"
+
+[mcp_servers.code-review-graph.tools.list_graph_stats_tool]
+approval_mode = "approve"
+
+# Google Stitch MCP. Key is read from $STITCH_API_KEY, never stored in this file.
+[mcp_servers.stitch]
+url = "https://stitch.googleapis.com/mcp"
+env_http_headers = { "X-Goog-Api-Key" = "STITCH_API_KEY" }
+
+[desktop]
+appearanceTheme = "dark"
+appearanceLightCodeThemeId = "catppuccin"
+appearanceDarkCodeThemeId = "everforest"
+followUpQueueMode = "queue"
+dock-icon-preference = "codex-system"
+localeOverride = "en-US"
+show-context-window-usage = true
+
+[desktop.open-in-target-preferences]
+global = "zed"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#8839ef"
+contrast = 45
+ink = "#4c4f69"
+opaqueWindows = false
+surface = "#eff1f5"
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#40a02b"
+diffRemoved = "#d20f39"
+skill = "#8839ef"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#a7c080"
+contrast = 50
+ink = "#d3c6aa"
+opaqueWindows = true
+surface = "#2d353b"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+code = '"Geist Mono", ui-monospace, "SFMono-Regular"'
+ui = "Geist, Inter"
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#a7c080"
+diffRemoved = "#e67e80"
+skill = "#d699b6"
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true

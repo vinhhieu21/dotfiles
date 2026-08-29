@@ -1,0 +1,12 @@
+# Login-shell PATH (sourced once per login). fish is the daily shell; zsh is the fallback.
+export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
+
+# Homebrew env for zsh fallback sessions.
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# JetBrains Toolbox CLI launchers.
+if [ -d "$HOME/Library/Application Support/JetBrains/Toolbox/scripts" ]; then
+    export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+fi
