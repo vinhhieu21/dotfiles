@@ -49,8 +49,6 @@ function ga { git add @args }
 function gc { git commit @args }
 function gco { git checkout @args }
 function gsw { git switch @args }
-function dc { docker compose @args }
-function lzd { lazydocker @args }
 
 function codex-fast { codex --profile fast @args }
 function codex-deep { codex --profile deep @args }

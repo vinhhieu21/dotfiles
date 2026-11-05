@@ -122,10 +122,15 @@ if (-not $SkipPackages) {
         'Git.Git', 'GitHub.cli', 'Starship.Starship', 'Neovim.Neovim',
         'BurntSushi.ripgrep.MSVC', 'sharkdp.fd', 'sharkdp.bat', 'junegunn.fzf', 'ajeetdsouza.zoxide',
         'eza-community.eza', 'jqlang.jq', 'JesseDuffield.lazygit',
-        'OpenJS.NodeJS.LTS', 'astral-sh.uv',
-        'Anthropic.ClaudeCode', 'OpenAI.Codex', 'JetBrains.Toolbox',
+        'OpenJS.NodeJS.LTS', 'astral-sh.uv', 'Python.Python.3.14',
+        'BrechtSanders.WinLibs.POSIX.UCRT',
+        'OpenAI.Codex',
+        'wez.wezterm', 'AutoHotkey.AutoHotkey', 'glzr-io.glazewm',
         'DEVCOM.JetBrainsMonoNerdFont'
     ) | ForEach-Object { Install-WingetPackage $_ }
+
+    # A second copy from winget would shadow or fight the native installer's self-updating one.
+    if (-not (Get-Command claude -ErrorAction SilentlyContinue)) { Install-WingetPackage 'Anthropic.ClaudeCode' }
 
     if ($WithBuildTools) {
         Install-WingetPackage 'Microsoft.VisualStudio.2022.BuildTools' @(
@@ -147,6 +152,11 @@ Link 'starship/starship.toml'     "$HOME/.config/starship.toml"
 Link 'bat/themes'                 "$env:APPDATA/bat/themes"
 if (Get-Command bat -ErrorAction SilentlyContinue) { bat cache --build | Out-Null }
 
+# ---------------------------------------------------------------------------- terminal + keyboard
+Link 'wezterm/wezterm.lua'        "$HOME/.wezterm.lua"
+Link 'glazewm/config.yaml'        "$HOME/.glzr/glazewm/config.yaml"
+Link 'ahk/mac-keys.ahk'           "$([Environment]::GetFolderPath('MyDocuments'))/MacKeys/mac-keys.ahk"
+
 # ---------------------------------------------------------------------------- git
 Link 'git/gitconfig'              "$HOME/.gitconfig"
 Link 'git/ignore'                 "$HOME/.config/git/ignore"
@@ -154,7 +164,6 @@ Link 'gh/config.yml'              "$env:APPDATA/GitHub CLI/config.yml"
 
 # ---------------------------------------------------------------------------- editors
 Link 'nvim'                       "$env:LOCALAPPDATA/nvim"
-Link 'ideavim/ideavimrc'          "$HOME/.ideavimrc"
 Link 'cursor/cursorrules'         "$HOME/.cursorrules"
 
 # ---------------------------------------------------------------------------- AI CLIs

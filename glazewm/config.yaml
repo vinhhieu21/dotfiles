@@ -1,0 +1,208 @@
+# GlazeWM: the Windows counterpart of aerospace/aerospace.toml.
+# install.ps1 links this to ~/.glzr/glazewm/config.yaml. Written for GlazeWM 3.9.
+#
+# AeroSpace's alt-* becomes lwin+*: the Win key sits where Option does on a Mac, and Left Alt is
+# already Cmd (ahk/mac-keys.ahk).
+# Windows reserves Win+L for locking and it cannot be rebound, so focus-right is on Win+; (next to L).
+# Not ported: accordion layout, balance-sizes and flatten (GlazeWM has no equivalent), Win+arrow
+# joins (ahk/mac-keys.ahk uses Win+arrow for word navigation), and launchers for apps not on this PC.
+
+general:
+  startup_commands: []
+  shutdown_commands: []
+  config_reload_commands: []
+  focus_follows_cursor: false
+  toggle_workspace_on_refocus: false
+  cursor_jump:
+    enabled: true
+    trigger: 'monitor_focus'
+  hide_method: 'cloak'
+  show_all_in_taskbar: false
+
+gaps:
+  scale_with_dpi: true
+  inner_gap: '3px'
+  outer_gap: { top: '3px', right: '3px', bottom: '3px', left: '3px' }
+
+window_effects:
+  focused_window:
+    border: { enabled: true, color: '#7aa2f7' }
+    hide_title_bar: { enabled: false }
+    corner_style: { enabled: false, style: 'square' }
+    transparency: { enabled: false, opacity: '95%' }
+  other_windows:
+    border: { enabled: true, color: '#3b4261' }
+    hide_title_bar: { enabled: false }
+    corner_style: { enabled: false, style: 'square' }
+    transparency: { enabled: false, opacity: '0%' }
+
+window_behavior:
+  initial_state: 'tiling'
+  state_defaults:
+    floating: { centered: true, shown_on_top: false }
+    fullscreen: { maximized: false, shown_on_top: false }
+
+# Row 1: dev triad. Row 2: editors and AI. Row 3: web and chat. Row 4: work, API, media.
+workspaces:
+  - { name: '1', keep_alive: true }
+  - { name: '2', keep_alive: true }
+  - { name: '3', keep_alive: true }
+  - { name: '4', keep_alive: true }
+  - { name: '5', keep_alive: true }
+  - { name: '6', keep_alive: true }
+  - { name: '7', keep_alive: true }
+  - { name: '8', keep_alive: true }
+  - { name: '9', keep_alive: true }
+  - { name: 'Q', keep_alive: true }
+  - { name: 'W', keep_alive: true }
+  - { name: 'E', keep_alive: true }
+  - { name: 'A', keep_alive: true }
+  - { name: 'S', keep_alive: true }
+  - { name: 'D', keep_alive: true }
+  - { name: 'Z', keep_alive: true }
+  - { name: 'X', keep_alive: true }
+  - { name: 'C', keep_alive: true }
+
+window_rules:
+  # Never manage games or overlays. mac-keys.ahk also suspends itself for dota2.
+  - commands: ['ignore']
+    match:
+      - window_process: { equals: 'dota2' }
+      - window_process: { equals: 'zebar' }
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
+      - window_process: { equals: 'PowerToys' }
+        window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
+      - window_title: { equals: 'Command Palette' }
+        window_class: { equals: 'WinUIDesktopWin32WindowClass' }
+      - window_process: { equals: 'PowerToys' }
+        window_title: { regex: '.*? - Peek' }
+      - window_process: { equals: 'EXCEL' }
+        window_class: { not_regex: 'XLMAIN' }
+      - window_process: { equals: 'WINWORD' }
+        window_class: { not_regex: 'OpusApp' }
+      - window_process: { equals: 'POWERPNT' }
+        window_class: { not_regex: 'PPTFrameClass' }
+
+  # Floating: file manager, system windows and launchers.
+  - commands: ['set-floating --centered']
+    match:
+      - window_class: { equals: 'CabinetWClass' }
+      - window_process: { equals: 'ApplicationFrameHost' }
+        window_title: { regex: '^(Settings|Microsoft Store|Calculator)$' }
+      - window_process: { equals: 'SystemSettings' }
+      - window_process: { equals: 'Taskmgr' }
+      - window_process: { equals: 'RiotClientUx' }
+      - window_process: { equals: 'PowerToys.Settings' }
+
+  # App routing for the apps on this machine, same workspaces as AeroSpace.
+  - commands: ['move --workspace 2']
+    match:
+      - window_process: { equals: 'brave' }
+  - commands: ['move --workspace 3', 'set-floating --centered']
+    match:
+      - window_process: { equals: 'wezterm-gui' }
+  - commands: ['move --workspace Q']
+    match:
+      - window_process: { equals: 'Code' }
+  - commands: ['move --workspace W']
+    match:
+      - window_process: { equals: 'claude' }
+  - commands: ['move --workspace S']
+    match:
+      - window_process: { equals: 'Zalo' }
+  - commands: ['move --workspace D']
+    match:
+      - window_process: { equals: 'Telegram' }
+  - commands: ['move --workspace C']
+    match:
+      - window_process: { regex: '^(steam|steamwebhelper)$' }
+
+binding_modes:
+  # AeroSpace's service mode: Win+Shift+; to enter.
+  - name: 'service'
+    keybindings:
+      - commands: ['wm-disable-binding-mode --name service']
+        bindings: ['escape']
+      - commands: ['wm-disable-binding-mode --name service', 'wm-reload-config']
+        bindings: ['r']
+      - commands: ['wm-disable-binding-mode --name service', 'toggle-floating --centered']
+        bindings: ['f']
+      - commands: ['wm-disable-binding-mode --name service', 'toggle-fullscreen']
+        bindings: ['shift+f']
+      - commands: ['wm-disable-binding-mode --name service', 'wm-redraw']
+        bindings: ['w']
+      # Quit GlazeWM. All windows are shown again.
+      - commands: ['wm-exit']
+        bindings: ['x']
+
+keybindings:
+  # Focus and move (vim style). Win+L locks the PC, so focus-right is Win+;.
+  - { commands: ['focus --direction left'], bindings: ['lwin+h'] }
+  - { commands: ['focus --direction down'], bindings: ['lwin+j'] }
+  - { commands: ['focus --direction up'], bindings: ['lwin+k'] }
+  - { commands: ['focus --direction right'], bindings: ['lwin+oem_semicolon'] }
+  - { commands: ['move --direction left'], bindings: ['lwin+shift+h'] }
+  - { commands: ['move --direction down'], bindings: ['lwin+shift+j'] }
+  - { commands: ['move --direction up'], bindings: ['lwin+shift+k'] }
+  - { commands: ['move --direction right'], bindings: ['lwin+shift+l'] }
+
+  # Layout and window state
+  - { commands: ['toggle-tiling-direction'], bindings: ['lwin+oem_question'] }
+  - { commands: ['toggle-fullscreen'], bindings: ['lwin+shift+enter'] }
+  - { commands: ['toggle-floating --centered'], bindings: ['lwin+control+f'] }
+  - { commands: ['resize --width -2%'], bindings: ['lwin+shift+oem_minus'] }
+  - { commands: ['resize --width +2%'], bindings: ['lwin+shift+oem_plus'] }
+
+  # Modes and escape hatches
+  - { commands: ['wm-enable-binding-mode --name service'], bindings: ['lwin+shift+oem_semicolon'] }
+  - { commands: ['wm-toggle-pause'], bindings: ['lwin+shift+p'] }
+
+  # Workspace back-and-forth (AeroSpace alt-tab)
+  - { commands: ['focus --recent-workspace'], bindings: ['lwin+tab'] }
+
+  # App launchers
+  - { commands: ['shell-exec wezterm-gui'], bindings: ['lwin+control+t'] }
+  - { commands: ['shell-exec "%APPDATA%/Telegram Desktop/Telegram.exe"'], bindings: ['lwin+t'] }
+  - { commands: ['shell-exec explorer'], bindings: ['lwin+f'] }
+  - { commands: ['shell-exec code'], bindings: ['lwin+r'] }
+
+  # Switch workspace
+  - { commands: ['focus --workspace 1'], bindings: ['lwin+1'] }
+  - { commands: ['focus --workspace 2'], bindings: ['lwin+2'] }
+  - { commands: ['focus --workspace 3'], bindings: ['lwin+3'] }
+  - { commands: ['focus --workspace 4'], bindings: ['lwin+4'] }
+  - { commands: ['focus --workspace 5'], bindings: ['lwin+5'] }
+  - { commands: ['focus --workspace 6'], bindings: ['lwin+6'] }
+  - { commands: ['focus --workspace 7'], bindings: ['lwin+7'] }
+  - { commands: ['focus --workspace 8'], bindings: ['lwin+8'] }
+  - { commands: ['focus --workspace 9'], bindings: ['lwin+9'] }
+  - { commands: ['focus --workspace Q'], bindings: ['lwin+q'] }
+  - { commands: ['focus --workspace W'], bindings: ['lwin+w'] }
+  - { commands: ['focus --workspace E'], bindings: ['lwin+e'] }
+  - { commands: ['focus --workspace A'], bindings: ['lwin+a'] }
+  - { commands: ['focus --workspace S'], bindings: ['lwin+s'] }
+  - { commands: ['focus --workspace D'], bindings: ['lwin+d'] }
+  - { commands: ['focus --workspace Z'], bindings: ['lwin+z'] }
+  - { commands: ['focus --workspace X'], bindings: ['lwin+x'] }
+  - { commands: ['focus --workspace C'], bindings: ['lwin+c'] }
+
+  # Move window to workspace and follow it
+  - { commands: ['move --workspace 1', 'focus --workspace 1'], bindings: ['lwin+shift+1'] }
+  - { commands: ['move --workspace 2', 'focus --workspace 2'], bindings: ['lwin+shift+2'] }
+  - { commands: ['move --workspace 3', 'focus --workspace 3'], bindings: ['lwin+shift+3'] }
+  - { commands: ['move --workspace 4', 'focus --workspace 4'], bindings: ['lwin+shift+4'] }
+  - { commands: ['move --workspace 5', 'focus --workspace 5'], bindings: ['lwin+shift+5'] }
+  - { commands: ['move --workspace 6', 'focus --workspace 6'], bindings: ['lwin+shift+6'] }
+  - { commands: ['move --workspace 7', 'focus --workspace 7'], bindings: ['lwin+shift+7'] }
+  - { commands: ['move --workspace 8', 'focus --workspace 8'], bindings: ['lwin+shift+8'] }
+  - { commands: ['move --workspace 9', 'focus --workspace 9'], bindings: ['lwin+shift+9'] }
+  - { commands: ['move --workspace Q', 'focus --workspace Q'], bindings: ['lwin+shift+q'] }
+  - { commands: ['move --workspace W', 'focus --workspace W'], bindings: ['lwin+shift+w'] }
+  - { commands: ['move --workspace E', 'focus --workspace E'], bindings: ['lwin+shift+e'] }
+  - { commands: ['move --workspace A', 'focus --workspace A'], bindings: ['lwin+shift+a'] }
+  - { commands: ['move --workspace S', 'focus --workspace S'], bindings: ['lwin+shift+s'] }
+  - { commands: ['move --workspace D', 'focus --workspace D'], bindings: ['lwin+shift+d'] }
+  - { commands: ['move --workspace Z', 'focus --workspace Z'], bindings: ['lwin+shift+z'] }
+  - { commands: ['move --workspace X', 'focus --workspace X'], bindings: ['lwin+shift+x'] }
+  - { commands: ['move --workspace C', 'focus --workspace C'], bindings: ['lwin+shift+c'] }

@@ -36,6 +36,7 @@ brew bundle --file=~/dotfiles/Brewfile
 ## Windows
 
 macOS-only pieces (aerospace, karabiner, ghostty, rex, finicky) are skipped on Windows.
+`wezterm/`, `ahk/` and `glazewm/` are their Windows counterparts for Ghostty, Karabiner and AeroSpace.
 Pick native Windows or WSL2; both can live on one machine.
 
 ### Native Windows (PowerShell, git, nvim, starship, Claude Code, Codex)
@@ -71,10 +72,12 @@ Use `-WithBuildTools` to also install the Visual Studio C++ build tools (several
 | `powershell/` | `$PROFILE.CurrentUserAllHosts`                                |
 | `starship/`   | `~\.config\starship.toml`                                      |
 | `bat/`        | `%APPDATA%\bat\themes`                                         |
+| `wezterm/`    | `~\.wezterm.lua`                                               |
+| `glazewm/`    | `~\.glzr\glazewm\config.yaml` (AeroSpace's `alt-*` becomes `lwin+*`; Win+L is reserved, so focus-right is Win+;) |
+| `ahk/`        | `~\Documents\MacKeys\mac-keys.ahk` (Left Alt = Cmd, Win = Option, Caps Lock tap = Escape) |
 | `git/`        | `~\.gitconfig`, `~\.config\git\ignore`                         |
 | `gh/`         | `%APPDATA%\GitHub CLI\config.yml`                              |
 | `nvim/`       | `%LOCALAPPDATA%\nvim`                                           |
-| `ideavim/`    | `~\.ideavimrc`                                                 |
 | `cursor/`     | `~\.cursorrules`                                               |
 | `claude/`     | `~\.claude\{CLAUDE.md,agents,skills,hooks,workflows,mods}`, `~\.mcp.json` |
 | `opencode/`   | `~\.opencode.json`                                             |
