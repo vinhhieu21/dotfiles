@@ -28,7 +28,6 @@ brew bundle --file=~/dotfiles/Brewfile
 | `gh/`        | `~/.config/gh/config.yml`                                              |
 | `nvim/`      | `~/.config/nvim` (LazyVim)                                             |
 | `ideavim/`   | `~/.ideavimrc`                                                         |
-| `cursor/`    | `~/.cursorrules`                                                       |
 | `claude/`    | `~/.claude/{CLAUDE.md,statusline-command.sh,agents,skills,hooks,workflows,mods}`, `~/.mcp.json`; `settings.json` is copied once, not symlinked (Claude Code rewrites it) |
 | `opencode/`  | `~/.opencode.json`                                                     |
 | `codex/`     | `~/.codex/*.toml` (copied once, not symlinked - codex rewrites its config at runtime) |
@@ -78,7 +77,6 @@ Use `-WithBuildTools` to also install the Visual Studio C++ build tools (several
 | `git/`        | `~\.gitconfig`, `~\.config\git\ignore`                         |
 | `gh/`         | `%APPDATA%\GitHub CLI\config.yml`                              |
 | `nvim/`       | `%LOCALAPPDATA%\nvim`                                           |
-| `cursor/`     | `~\.cursorrules`                                               |
 | `claude/`     | `~\.claude\{CLAUDE.md,agents,skills,hooks,workflows,mods}`, `~\.mcp.json` |
 | `opencode/`   | `~\.opencode.json`                                             |
 

@@ -140,7 +140,6 @@ if (-not $SkipPackages) {
     Update-SessionPath
 
     Invoke-Optional 'npm: tree-sitter-cli (nvim-treesitter)' 'npm' { npm install --global tree-sitter-cli }
-    Invoke-Optional 'uv: code-review-graph (Codex MCP server)' 'uv' { uv tool install code-review-graph }
     Invoke-Optional 'PowerShell module: PSFzf' 'Install-Module' {
         if (-not (Get-Module PSFzf -ListAvailable)) { Install-Module PSFzf -Scope CurrentUser -Force }
     }
@@ -164,7 +163,6 @@ Link 'gh/config.yml'              "$env:APPDATA/GitHub CLI/config.yml"
 
 # ---------------------------------------------------------------------------- editors
 Link 'nvim'                       "$env:LOCALAPPDATA/nvim"
-Link 'cursor/cursorrules'         "$HOME/.cursorrules"
 
 # ---------------------------------------------------------------------------- AI CLIs
 $claude = "$HOME/.claude"

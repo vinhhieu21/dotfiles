@@ -59,7 +59,6 @@ link gh/config.yml            "$HOME/.config/gh/config.yml"
 # editors
 link nvim                     "$HOME/.config/nvim"
 link ideavim/ideavimrc        "$HOME/.ideavimrc"
-link cursor/cursorrules       "$HOME/.cursorrules"
 
 # AI CLIs
 link claude/CLAUDE.md             "$HOME/.claude/CLAUDE.md"

@@ -70,16 +70,6 @@ enabled = false
 name = "find-skills"
 enabled = false
 
-[mcp_servers.code-review-graph]
-command = "code-review-graph"
-args = ["serve"]
-
-[mcp_servers.code-review-graph.tools.build_or_update_graph_tool]
-approval_mode = "approve"
-
-[mcp_servers.code-review-graph.tools.list_graph_stats_tool]
-approval_mode = "approve"
-
 # Google Stitch MCP. Key is read from $STITCH_API_KEY, never stored in this file.
 [mcp_servers.stitch]
 url = "https://stitch.googleapis.com/mcp"
