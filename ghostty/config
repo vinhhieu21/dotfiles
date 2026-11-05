@@ -1,62 +1,161 @@
 # Non-default values only. Defaults: `ghostty +show-config --default`, `ghostty +list-keybinds --default`
 
-# --- Font ---
+# ==============================================================================
+# 1. Typography & Font (JetBrains Mono Nerd Font with OpenType Ligatures)
+# ==============================================================================
+# Fallback chain: first family that exists wins (macOS CoreText font names)
+font-family = "JetBrainsMono Nerd Font Mono"
+font-family = "JetBrainsMono Nerd Font"
 font-family = "JetBrainsMono NF"
 font-size = 15
 font-thicken = true
 font-style = "Medium"
 font-style-bold = "Bold"
 
-# --- Window / theme ---
-theme = Everforest Dark Hard
-window-padding-x = 16
-window-padding-y = 14
+# OpenType features: programming ligatures (calt/liga) + slashed zero (zero)
+font-feature = "calt", "liga", "zero"
+
+# Airy vertical spacing: extra breathing room between lines (Kitty adjust_line_height equivalent)
+adjust-cell-height = 10%
+
+# Clean underline positioning for URLs and lints (avoids descender collisions)
+adjust-underline-position = 2
+adjust-underline-thickness = 1
+
+# ==============================================================================
+# 2. Window & macOS 27 Liquid Glass Styling
+# ==============================================================================
+# Cohesive Tokyo Night palette syncing automatically with macOS system appearance
+theme = dark:TokyoNight Night,light:TokyoNight Day
+window-theme = auto
+
+# Display P3 wide color gamut for Apple Retina displays
+window-colorspace = display-p3
+
+# Minimum contrast guard to guarantee readability against any glass background
+minimum-contrast = 1.1
+
+# macOS 27 Liquid Glass material with balanced opacity
+background-opacity = 0.82
+background-blur = macos-glass-regular
+
+# Apply opacity to cells with explicit colors (tmux, nvim, TUIs) to prevent opaque patches
+background-opacity-cells = true
+
+# Balanced window padding with extended background color
+window-padding-x = 18
+window-padding-y = 16
 window-padding-balance = true
 window-padding-color = extend
 window-save-state = always
 resize-overlay = never
-macos-titlebar-proxy-icon = hidden
-# Tabs merged into titlebar (single row). If tabs partially vanish: ghostty#12949, fixed post-1.3.1 (nightly ghostty@tip)
+
+# macOS 27 unified single-row tab titlebar
 macos-titlebar-style = tabs
-# tip channel: macOS 27 titlebar-tabs fix (ghostty#13069) not in 1.3.1. Needs full restart.
+macos-titlebar-proxy-icon = hidden
+macos-window-shadow = true
+macos-window-buttons = visible
+window-title-font-family = "JetBrainsMono Nerd Font Mono"
+
+# Liquid Glass styled macOS dock icon matching macOS 27 aesthetics
+macos-icon = glass
+
+# Tip channel for ongoing macOS 27 compatibility updates
 auto-update-channel = tip
 
-# --- Cursor: solid block everywhere (stop shell integration switching to bar at prompt) ---
+# ==============================================================================
+# 3. Cursor & Shell Integration
+# ==============================================================================
+# Solid block cursor; fish vi-mode drives cursor shapes via no-cursor
+cursor-style = block
 cursor-style-blink = false
-shell-integration-features = no-cursor,sudo
+cursor-click-to-move = true
 
-# --- Scrollback: ~100MB (default 10MB) — long build/log output ---
-scrollback-limit = 100000000
+# Shell integration: prompt marks, sudo wrap, ssh env/terminfo (no-cursor for fish vi mode)
+shell-integration-features = no-cursor,sudo,ssh-env,ssh-terminfo
 
-# --- Splits ---
-unfocused-split-opacity = 0.6
-unfocused-split-fill = #000000
-split-divider-color = #3a3a3a
+# ==============================================================================
+# 4. Efficiency & Performance (Kitty-inspired)
+# ==============================================================================
+# Command finished notifications: notify when background command finishes after 5s
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = notify
+notify-on-command-finish-after = 5s
 
-# --- Behavior ---
-macos-option-as-alt = true
-mouse-hide-while-typing = true
+# Hyperlinks: hover previews, OSC 8 support, and click-to-open
+link-url = true
+link-osc8 = true
+link-previews = true
+
+# Scrollback capacity: 50MB (~500k lines per pane) with zstd compression
+scrollback-limit-bytes = 50000000
+scrollback-limit-lines = unlimited
+scrollback-compression = true
+
+# Working directory inheritance for new tabs, splits, and windows
+window-inherit-working-directory = true
+tab-inherit-working-directory = true
+split-inherit-working-directory = true
+
+# Splits: Tokyo Night dividers and subtle dimming for unfocused panes
+unfocused-split-opacity = 0.70
+unfocused-split-fill = #1a1b26
+split-divider-color = #3b4261
+split-preserve-zoom = no-navigation
+
+# Tokyo Night styled search match highlighting (replaces default harsh yellow)
+search-background = #3b4261
+search-foreground = #c0caf5
+search-selected-background = #e0af68
+search-selected-foreground = #1a1b26
+
+# Clipboard & mouse efficiency
 copy-on-select = clipboard
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+selection-word-chars = \t'"│`|:;,()[]{}<>$=
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = precision:1,discrete:3
+macos-option-as-alt = true
 app-notifications = no-clipboard-copy,no-config-reload
-quick-terminal-animation-duration = 0
 
+# Quick drop-down scratchpad terminal
+quick-terminal-position = top
+quick-terminal-screen = main
+quick-terminal-animation-duration = 0.15
+quick-terminal-autohide = false
+
+# ==============================================================================
+# 5. Keybindings (Kitty + macOS Ergonomics)
+# ==============================================================================
 # --- Tabs ---
 keybind = super+shift+left=move_tab:-1
 keybind = super+shift+right=move_tab:1
+keybind = cmd+shift+o=toggle_tab_overview
+keybind = cmd+shift+r=prompt_tab_title
 
-# --- Splits (defaults: cmd+d/cmd+shift+d new, cmd+opt+arrows goto, cmd+shift+enter zoom) ---
+# --- Splits ---
+keybind = cmd+shift+enter=toggle_split_zoom
 keybind = cmd+ctrl+left=resize_split:left,20
 keybind = cmd+ctrl+right=resize_split:right,20
 keybind = cmd+ctrl+up=resize_split:up,20
 keybind = cmd+ctrl+down=resize_split:down,20
 keybind = cmd+alt+equal=equalize_splits
 
-# --- Scrollback ---
+# --- Prompt & Scrollback Navigation (Kitty scroll-to-prompt & pager) ---
+keybind = cmd+up=jump_to_prompt:-1
+keybind = cmd+down=jump_to_prompt:1
 keybind = cmd+shift+up=scroll_page_up
 keybind = cmd+shift+down=scroll_page_down
 keybind = cmd+shift+home=scroll_to_top
 keybind = cmd+shift+end=scroll_to_bottom
 keybind = cmd+shift+s=write_scrollback_file:open
+
+# --- Quick Actions (URLs & Opacity) ---
+keybind = cmd+shift+u=copy_url_to_clipboard
+keybind = cmd+shift+b=toggle_background_opacity
+keybind = global:cmd+grave_accent=toggle_quick_terminal
 
 # --- Line editing (readline bytes: C-a, C-e, C-u, C-k) ---
 keybind = cmd+left=text:\x01
@@ -64,7 +163,10 @@ keybind = cmd+right=text:\x05
 keybind = cmd+backspace=text:\x15
 keybind = cmd+delete=text:\x0b
 
-# --- Window / app ---
+# --- Neovim: forward JetBrains Cmd shortcuts (CSI-u, super+shift = mod 10) ---
+# Neovim sees these as <D-F>; see nvim/lua/config/keymaps.lua
+keybind = cmd+shift+f=csi:102;10u
+
+# --- Window / App ---
 keybind = cmd+ctrl+f=unbind
 keybind = cmd+shift+i=inspector:toggle
-keybind = global:cmd+grave_accent=toggle_quick_terminal

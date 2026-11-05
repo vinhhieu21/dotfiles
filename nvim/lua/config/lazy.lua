@@ -21,16 +21,28 @@ require("lazy").setup({
     -- import/override with your plugins
     { import = "plugins" },
   },
+  defaults = {
+    lazy = false,
+    version = false,
+  },
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
-  }, -- automatically check for plugin updates
+    enabled = false, -- don't check for updates automatically on startup
+  },
+  change_detection = {
+    notify = false, -- silent config reload
+  },
   performance = {
+    cache = {
+      enabled = true,
+    },
+    reset_packpath = true,
     rtp = {
-      -- disable some rtp plugins
+      -- disable unused builtin runtime plugins
       disabled_plugins = {
         "gzip",
+        "netrwPlugin",
+        "rplugin",
         "tarPlugin",
         "tohtml",
         "tutor",

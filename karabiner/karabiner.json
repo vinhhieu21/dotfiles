@@ -1,6 +1,5 @@
 {
     "global": { "show_in_menu_bar": false },
-    "machine_specific": { "krbn-f1bdfba6-005f-4d96-b262-7f4405194fb9": { "external_editor_path": "/Applications/Zed.app" } },
     "profiles": [
         {
             "complex_modifications": {

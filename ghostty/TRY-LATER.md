@@ -74,7 +74,6 @@ Target ~1.5× font size **visually** — but editors use different units, so the
 | Editor | Setting | Semantics | Use |
 |---|---|---|---|
 | VS Code / Cursor / Windsurf | `editor.lineHeight` | × font size | `1.5–1.6` |
-| Zed | `buffer_line_height` | × font size, or preset | `"comfortable"` (=1.618) or `1.5` |
 | JetBrains IDEs (IDEA, WebStorm…) | Editor → Font → Line height | × font's **built-in** metrics | `1.2–1.3` |
 | Sublime Text | `line_padding_top`/`_bottom` | pixels per line | `2` + `2` at 15px |
 | Neovide (GUI Neovim) | `linespace` | pixels | `3–4` |

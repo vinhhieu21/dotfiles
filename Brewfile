@@ -49,6 +49,16 @@ brew "git-lfs"
 brew "jq"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Static checker for GitHub Actions workflow files
+brew "actionlint"
+# Distributed revision control system
+brew "git"
+# Simple terminal UI for git commands
+brew "lazygit"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Generate your Xcode project from a spec file and folder structure
+brew "xcodegen"
 cask "aerospace"
 # Agent orchestration platform
 cask "antigravity"
@@ -66,5 +76,3 @@ cask "font-maple-mono"
 cask "ghostty"
 # Vietnamese input system
 cask "openkey"
-# Multiplayer code editor
-cask "zed"

@@ -1,0 +1,6 @@
+{
+  "name": "usage-band",
+  "version": "0.1.0",
+  "description": "Context fill bar (green/orange/red), 5h + weekly limits, one line above the prompt; hover the bar for the /context breakdown",
+  "types": "./types/index.d.ts"
+}

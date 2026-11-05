@@ -1,6 +1,10 @@
 {
+  "syncClaudeAiSkills": false,
+  "syncClaudeAiPlugins": false,
   "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_SKIP_PLUGIN_MCP_SERVERS": "1",
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods/usage-band"
   },
   "permissions": {
     "allow": [
@@ -28,7 +32,6 @@
       "Bash(which*)",
       "Bash(echo*)",
       "Bash(printenv*)",
-      "Bash(env)",
       "Bash(go version)",
       "Bash(go vet*)",
       "Bash(go test*)",
@@ -46,7 +49,6 @@
       "Bash(uv*)",
       "Bash(node --version)",
       "Bash(npm test*)",
-      "Bash(npm run*)",
       "Bash(pnpm*)",
       "Bash(docker ps*)",
       "Bash(docker images*)",
@@ -64,7 +66,6 @@
       "Bash(gh run list*)",
       "Bash(gh api*)",
       "Bash(tmux:*)",
-      "Skill(claude-api)",
       "WebFetch(domain:docs.claude.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:pkg.go.dev)",
@@ -72,59 +73,52 @@
       "WebFetch(domain:docs.python.org)"
     ],
     "deny": [
-      "Bash(rm -rf /*)",
-      "Bash(rm -rf ~/*)",
-      "Bash(rm -rf $HOME*)",
+      "Artifact",
+      "Bash(git branch -D main)",
+      "Bash(git branch -D master)",
       "Bash(git push --force origin main*)",
       "Bash(git push --force origin master*)",
       "Bash(git push -f origin main*)",
       "Bash(git push -f origin master*)",
       "Bash(git reset --hard origin/main*)",
       "Bash(git reset --hard origin/master*)",
-      "Bash(git branch -D main)",
-      "Bash(git branch -D master)"
+      "Bash(rm -rf $HOME*)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~/*)",
+      "ScheduleWakeup",
+      "Workflow"
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
-  "statusLine": {
-    "type": "command",
-    "command": "node ${CLAUDE_CONFIG_DIR:-$HOME/.claude}/hud/omc-hud.mjs"
-  },
-  "enabledPlugins": {
-    "context7@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true,
-    "jdtls-lsp@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true,
-    "caveman@caveman": true,
-    "oh-my-claudecode@omc": true
-  },
-  "extraKnownMarketplaces": {
-    "caveman": {
-      "source": {
-        "source": "github",
-        "repo": "JuliusBrussee/caveman"
-      },
-      "autoUpdate": true
+  "model": "opus",
+  "disableClaudeAiConnectors": true,
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "high"
     },
-    "omc": {
-      "source": {
-        "source": "git",
-        "url": "https://github.com/Yeachan-Heo/oh-my-claudecode.git"
-      }
+    "claude-haiku-5-5": {
+      "effortLevel": "high"
     }
   },
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "xhigh",
   "autoCompactWindow": 200000,
+  "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "autoDreamEnabled": true,
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
-  "theme": "dark",
+  "theme": "auto",
+  "editorMode": "normal",
   "autoCompactEnabled": true,
   "fileCheckpointingEnabled": true,
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Live-trading execution commands (anything placing real orders on an exchange) - real funds are at risk"
+    ]
+  }
 }

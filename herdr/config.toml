@@ -1,0 +1,51 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+a"
+
+# Splits / Panes (Ghostty: super+d, super+shift+d, super+w)
+split_vertical = ["prefix+d", "prefix+v"]                  # Ghostty: super+d (new split right)
+split_horizontal = ["prefix+shift+d", "prefix+minus"]      # Ghostty: super+shift+d (new split down)
+close_pane = ["prefix+w", "prefix+x"]                      # Ghostty: super+w (close surface)
+zoom = ["prefix+shift+enter", "prefix+z"]                  # Ghostty: super+shift+enter (toggle split zoom)
+clear_pane = ["prefix+k", "prefix+ctrl+k"]                 # Ghostty: super+k (clear screen)
+
+# Pane Navigation (Ghostty: super+[, super+], super+alt+arrow)
+cycle_pane_previous = ["prefix+[", "prefix+shift+tab"]     # Ghostty: super+[ (previous split)
+cycle_pane_next = ["prefix+]", "prefix+tab"]               # Ghostty: super+] (next split)
+focus_pane_left = ["prefix+left", "prefix+alt+left", "prefix+h"]
+focus_pane_right = ["prefix+right", "prefix+alt+right", "prefix+l"]
+focus_pane_up = ["prefix+up", "prefix+alt+up"]
+focus_pane_down = ["prefix+down", "prefix+alt+down", "prefix+j"]
+
+# Pane Resizing (Ghostty: super+ctrl+arrow)
+resize_pane_left = ["prefix+ctrl+left", "prefix+shift+left"]
+resize_pane_right = ["prefix+ctrl+right", "prefix+shift+right"]
+resize_pane_up = ["prefix+ctrl+up", "prefix+shift+up"]
+resize_pane_down = ["prefix+ctrl+down", "prefix+shift+down"]
+
+# Tabs (Ghostty: super+t, super+shift+[, super+shift+], super+alt+w, super+1..9)
+new_tab = ["prefix+t", "prefix+c"]                         # Ghostty: super+t (new tab)
+previous_tab = ["prefix+shift+[", "prefix+p"]              # Ghostty: super+shift+[ (previous tab)
+next_tab = ["prefix+shift+]", "prefix+n"]                  # Ghostty: super+shift+] (next tab)
+close_tab = ["prefix+alt+w", "prefix+shift+x"]             # Ghostty: super+alt+w (close tab)
+switch_tab = "prefix+1..9"                                 # Ghostty: super+1..9 (switch tab)
+
+# Workspace / Window Management (Ghostty: super+shift+w, super+n)
+close_workspace = "prefix+shift+w"                         # Ghostty: super+shift+w (close window)
+new_workspace = "prefix+shift+n"                           # Ghostty: super+n (new window)
+workspace_picker = "prefix+space"                          # Remapped from prefix+w to prevent conflict with close_pane
+rename_workspace = "prefix+alt+r"                          # Remapped from prefix+shift+w to prevent conflict with close_workspace
+switch_workspace = "prefix+shift+1..9"                     # Jump to workspace 1-9
+previous_workspace = "prefix+alt+["                        # Previous workspace
+next_workspace = "prefix+alt+]"                            # Next workspace
+
+# General (Ghostty: super+shift+,)
+reload_config = ["prefix+shift+,", "prefix+shift+r"]       # Ghostty: super+shift+, (reload config)
+
+[ui.sound]
+enabled = false

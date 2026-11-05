@@ -1,19 +1,33 @@
 # Only modules listed in `format` run; everything else is implicitly off.
+# Styles use named ANSI colors only, so the prompt follows the Ghostty theme (dark and light).
 format = "$directory$git_branch$git_status$character"
-right_format = "$cmd_duration"
+right_format = "$cmd_duration$jobs"
 add_newline = false
+
+# git status cold start after reboot (fsmonitor daemon spawn + index refresh + xcrun git shim) exceeds default 500ms
+command_timeout = 2000
 
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold green)"
+vimcmd_replace_one_symbol = "[❮](bold yellow)"
+vimcmd_replace_symbol = "[❮](bold yellow)"
+vimcmd_visual_symbol = "[❮](bold purple)"
 
 [directory]
 truncation_length = 2
+truncation_symbol = "…/"
 truncate_to_repo = true
 style = "blue"
+repo_root_style = "bold blue"
+read_only = " 󰌾"
+read_only_style = "red"
 
 [git_branch]
-format = " [$branch]($style) "
+symbol = " "
+format = " [$symbol$branch]($style) "
+style = "bold purple"
 
 [git_status]
 format = "([\\[$all_status$ahead_behind\\]]($style) )"
@@ -26,8 +40,15 @@ modified = "!"
 staged = "+"
 renamed = "»"
 deleted = "✘"
+stashed = "≡"
 style = "red"
 
 [cmd_duration]
 min_time = 1000
-format = " [$duration]($style)"
+format = " [󰔟 $duration]($style)"
+style = "yellow"
+
+[jobs]
+symbol = "✦ "
+format = " [$symbol$number]($style)"
+style = "bold blue"

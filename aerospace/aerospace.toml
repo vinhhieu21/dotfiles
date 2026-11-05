@@ -1,10 +1,25 @@
 config-version = 2
+# macOS 27: 0.21.3-Beta (2026-07-16) runs fine; upstream main added the macos-27 build target on 2026-09-15,
+# unreleased. Known 27.x quirk: restarting AeroSpace resets Notification Center desktop widget layout.
 
 # Start AeroSpace at login
 start-at-login = true
 
-# In config-version 2 persistent workspaces are no longer inferred from key bindings
-persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+# =========================================================
+# WORKSPACES
+# - Primary 4x3 Grid:
+#   Row 1 (1 - 2 - 3): Dev Triad (1: JetBrains, 2: Dia Browser, 3: Terminal)
+#   Row 2 (Q - W - E): Modern Editor & AI (Q: Cursor, W: Claude, E: ChatGPT)
+#   Row 3 (A - S - D): Native Web & Chat (A: Safari, S: Zalo, D: Telegram)
+#   Row 4 (Z - X - C): Work & Tools & Media (Z: Slack/Mail, X: Bruno, C: Media)
+# - Additional Workspaces: 4, 5, 6, 7, 8, 9 (for new/custom apps)
+# =========================================================
+persistent-workspaces = [
+    "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    "Q", "W", "E",
+    "A", "S", "D",
+    "Z", "X", "C",
+]
 
 # Normalizations
 enable-normalization-flatten-containers = true
@@ -19,7 +34,9 @@ default-root-container-orientation = 'auto'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 
-# --- Floating Rules (Popups / System) ---
+# =========================================================
+# FLOATING RULES (Popups / System Dialogs)
+# =========================================================
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'layout floating'
@@ -48,55 +65,138 @@ run = 'layout floating'
 if.app-id = 'com.riotgames.RiotGames.RiotClient'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-id = 'cx.c3.theunarchiver'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'pro.betterdisplay.BetterDisplay'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'org.pqrs.Karabiner-Elements.Settings'
+run = 'layout floating'
+
 # =========================================================
-# APP ROUTING (The "Work" Logic)
+# APP ROUTING
 # =========================================================
 
-# --- Workspace Routing ---
+# --- Row 1: Dev Triad (1 - 2 - 3) ---
+# Workspace 1: JetBrains IDEs
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.intellij'
 run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
+if.app-id = 'com.jetbrains.goland'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.WebStorm'
+run = 'move-node-to-workspace 1'
+
+# Workspace 2: Dia Browser
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.dia'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
 if.app-id = 'company.thebrowser.Browser'
 run = 'move-node-to-workspace 2'
 
+# Workspace 3: Terminal (Ghostty)
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 run = ['move-node-to-workspace 3', 'layout floating']
 
+# --- Row 2: Modern Editors & AI (Q - W - E) ---
+# Workspace Q: Code Editors (Cursor, VS Code, Antigravity)
 [[on-window-detected]]
-if.app-id = 'dev.zed.Zed'
-run = 'move-node-to-workspace 4'
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'move-node-to-workspace Q'
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'
+run = 'move-node-to-workspace Q'
+
+[[on-window-detected]]
+if.app-id = 'com.google.antigravity-ide'
+run = 'move-node-to-workspace Q'
+
+# Workspace W: Claude Desktop
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run = 'move-node-to-workspace W'
+
+# Workspace E: ChatGPT Desktop
+[[on-window-detected]]
+if.app-id = 'com.openai.codex'
+run = 'move-node-to-workspace E'
+
+# --- Row 3: Native Web & Personal Messaging (A - S - D) ---
+# Workspace A: Safari
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = 'move-node-to-workspace A'
+
+# Workspace S: Zalo
+[[on-window-detected]]
+if.app-id = 'com.vng.zalo'
+run = 'move-node-to-workspace S'
+
+# Workspace D: Telegram
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace D'
+
+# --- Row 4: Work Comms, API, Media (Z - X - C) ---
+# Workspace Z: Slack & Apple Mail
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace Z'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = 'move-node-to-workspace Z'
+
+# Workspace X: Bruno API Client
+[[on-window-detected]]
+if.app-id = 'com.usebruno.app'
+run = 'move-node-to-workspace X'
+
+# Workspace C: Media & Leisure (Steam, Nuvio, Calibre)
+[[on-window-detected]]
+if.app-id = 'com.valvesoftware.steam'
+run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+if.app-id = 'com.nuvio.media.desktop'
+run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+if.app-id = 'net.kovidgoyal.calibre'
+run = 'move-node-to-workspace C'
+
+# --- Additional Workspaces (4 - 9) ---
+# Workspace 4: Databases (DataGrip / MongoDB Compass)
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.datagrip'
 run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-id = 'com.mongodb.compass'
+run = 'move-node-to-workspace 4'
+
+# Workspace 5: Google Chrome (Secondary / Docs)
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace 5'
-
-[[on-window-detected]]
-if.app-id = 'com.usebruno.app'
-run = 'move-node-to-workspace 6'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace 7'
-
-[[on-window-detected]]
-if.app-id = 'com.tinyspeck.slackmacgap'
-run = 'move-node-to-workspace 8'
-
-[[on-window-detected]]
-if.app-id = 'ru.keepcoder.Telegram'
-run = 'move-node-to-workspace 9'
 
 # =========================================================
 # MONITOR ASSIGNMENTS
 # =========================================================
 [workspace-to-monitor-force-assignment]
+# Main External Monitor: All other workspaces
 1 = 'main'
 2 = 'main'
 3 = 'main'
@@ -104,14 +204,22 @@ run = 'move-node-to-workspace 9'
 5 = 'main'
 6 = 'main'
 7 = 'main'
+8 = 'main'
+9 = 'main'
+Q = 'main'
+W = 'main'
+E = 'main'
+Z = 'main'
+X = 'main'
+C = 'main'
 
-# Mac
-8 = 'built-in'
-9 = 'built-in'
-10 = 'built-in'
+# Built-in MacBook Display: Safari (A), Zalo (S), Telegram (D)
+A = 'built-in'
+S = 'built-in'
+D = 'built-in'
 
 # =========================================================
-# KEY MAPPINGS
+# KEY MAPPINGS & GAPS
 # =========================================================
 [key-mapping]
 preset = 'qwerty'
@@ -143,7 +251,7 @@ alt-j = 'focus down'
 alt-k = 'focus up'
 alt-l = 'focus right'
 
-# Move Windows
+# Move Windows (Vim Style)
 alt-shift-h = 'move left'
 alt-shift-j = 'move down'
 alt-shift-k = 'move up'
@@ -159,73 +267,128 @@ alt-shift-right = 'join-with right'
 alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
-# Workspace Switching
+# Workspace Switching History
 alt-tab = 'workspace-back-and-forth'
+
+# Monitor Navigation & Controls
+alt-ctrl-h = 'focus-monitor --wrap-around left'
+alt-ctrl-l = 'focus-monitor --wrap-around right'
+alt-ctrl-shift-h = 'move-node-to-monitor --wrap-around left'
+alt-ctrl-shift-l = 'move-node-to-monitor --wrap-around right'
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+alt-shift-semicolon = 'mode service'
+
+# =========================================================
+# WORKSPACE SWITCHING
+# =========================================================
+
+# Row 1: Dev Triad (1 - 2 - 3)
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
+
+# Additional Workspaces (4 - 9)
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
 alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-alt-0 = 'workspace 10'
 
-alt-ctrl-h = 'focus-monitor --wrap-around left'
-alt-ctrl-l = 'focus-monitor --wrap-around right'
+# Row 2: Modern Editors & AI (Q - W - E)
+alt-q = 'workspace Q'
+alt-w = 'workspace W'
+alt-e = 'workspace E'
 
-# Force Workspace Switching (exits fullscreen first)
-alt-ctrl-1 = ['fullscreen off', 'workspace 1']
-alt-ctrl-2 = ['fullscreen off', 'workspace 2']
-alt-ctrl-3 = ['fullscreen off', 'workspace 3']
-alt-ctrl-4 = ['fullscreen off', 'workspace 4']
-alt-ctrl-5 = ['fullscreen off', 'workspace 5']
-alt-ctrl-6 = ['fullscreen off', 'workspace 6']
-alt-ctrl-7 = ['fullscreen off', 'workspace 7']
-alt-ctrl-8 = ['fullscreen off', 'workspace 8']
-alt-ctrl-9 = ['fullscreen off', 'workspace 9']
-alt-ctrl-0 = ['fullscreen off', 'workspace 10']
+# Row 3: Native Web & Personal Messaging (A - S - D)
+alt-a = 'workspace A'
+alt-s = 'workspace S'
+alt-d = 'workspace D'
 
-# Move Window to Workspace
+# Row 4: Work Comms, API, Media (Z - X - C)
+alt-z = 'workspace Z'
+alt-x = 'workspace X'
+alt-c = 'workspace C'
+
+# =========================================================
+# MOVE WINDOW TO WORKSPACE (alt + shift + key)
+# =========================================================
+
+# Row 1: Dev Triad (1 - 2 - 3)
 alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
 alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
 alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+
+# Additional Workspaces (4 - 9)
 alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
 alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
 alt-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
 alt-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
 alt-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
 alt-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
-alt-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
-alt-ctrl-shift-h = 'move-node-to-monitor --wrap-around left'
-alt-ctrl-shift-l = 'move-node-to-monitor --wrap-around right'
 
-# Utilities
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-alt-shift-semicolon = 'mode service'
+# Row 2: Modern Editors & AI (Q - W - E)
+alt-shift-q = 'move-node-to-workspace Q --focus-follows-window'
+alt-shift-w = 'move-node-to-workspace W --focus-follows-window'
+alt-shift-e = 'move-node-to-workspace E --focus-follows-window'
 
-# App Shortcuts (mnemonic)
+# Row 3: Native Web & Personal Messaging (A - S - D)
+alt-shift-a = 'move-node-to-workspace A --focus-follows-window'
+alt-shift-s = 'move-node-to-workspace S --focus-follows-window'
+alt-shift-d = 'move-node-to-workspace D --focus-follows-window'
+
+# Row 4: Work Comms, API, Media (Z - X - C)
+alt-shift-z = 'move-node-to-workspace Z --focus-follows-window'
+alt-shift-x = 'move-node-to-workspace X --focus-follows-window'
+alt-shift-c = 'move-node-to-workspace C --focus-follows-window'
+
+# =========================================================
+# FORCE WORKSPACE SWITCHING (alt + ctrl + key, exits fullscreen)
+# =========================================================
+
+# Row 1: Dev Triad (1 - 2 - 3)
+alt-ctrl-1 = ['fullscreen off', 'workspace 1']
+alt-ctrl-2 = ['fullscreen off', 'workspace 2']
+alt-ctrl-3 = ['fullscreen off', 'workspace 3']
+
+# Additional Workspaces (4 - 9)
+alt-ctrl-4 = ['fullscreen off', 'workspace 4']
+alt-ctrl-5 = ['fullscreen off', 'workspace 5']
+alt-ctrl-6 = ['fullscreen off', 'workspace 6']
+alt-ctrl-7 = ['fullscreen off', 'workspace 7']
+alt-ctrl-8 = ['fullscreen off', 'workspace 8']
+alt-ctrl-9 = ['fullscreen off', 'workspace 9']
+
+# Row 2: Modern Editors & AI (Q - W - E)
+alt-ctrl-q = ['fullscreen off', 'workspace Q']
+alt-ctrl-w = ['fullscreen off', 'workspace W']
+alt-ctrl-e = ['fullscreen off', 'workspace E']
+
+# Row 3: Native Web & Personal Messaging (A - S - D)
+alt-ctrl-a = ['fullscreen off', 'workspace A']
+alt-ctrl-s = ['fullscreen off', 'workspace S']
+alt-ctrl-d = ['fullscreen off', 'workspace D']
+
+# Row 4: Work Comms, API, Media (Z - X - C)
+alt-ctrl-z = ['fullscreen off', 'workspace Z']
+alt-ctrl-x = ['fullscreen off', 'workspace X']
+alt-ctrl-c = ['fullscreen off', 'workspace C']
+
+# =========================================================
+# QUICK APP LAUNCH SHORTCUTS (Non-conflicting)
+# =========================================================
 alt-ctrl-t = 'exec-and-forget open -a /Applications/Ghostty.app'
 alt-t = 'exec-and-forget open -a /Applications/Telegram.app'
 alt-f = 'exec-and-forget open -a /System/Library/CoreServices/Finder.app'
 alt-i = 'exec-and-forget open -a "/Applications/IntelliJ IDEA.app"'
-alt-a = 'exec-and-forget open -a /Applications/Arc.app'
 alt-n = 'exec-and-forget open -a /Applications/Notes.app'
 alt-m = 'exec-and-forget open -a /Applications/Mail.app'
-alt-z = 'exec-and-forget open -a /Applications/Zed.app'
-alt-s = 'exec-and-forget open -a Safari'
 alt-g = 'exec-and-forget open -a /Applications/Google\ Chrome.app'
+alt-r = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
 
-# App Shortcuts (left-hand row: Q W E R / D C)
-alt-q = 'exec-and-forget open -a "/Applications/IntelliJ IDEA.app"'   # Q = main IDE
-alt-w = 'exec-and-forget open -a /Applications/Arc.app'               # W = browser
-alt-e = 'exec-and-forget open -a /Applications/Ghostty.app'           # E = terminal
-alt-r = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'  # R = ultimate editor
-alt-d = 'exec-and-forget open -a /Applications/Bruno.app'             # D = API client
-alt-c = 'exec-and-forget open -a "/Applications/MongoDB Compass.app"' # C = database
-
-# Service Mode
+# =========================================================
+# SERVICE MODE
+# =========================================================
 [mode.service.binding]
 esc = 'mode main'
 r = ['reload-config', 'mode main']

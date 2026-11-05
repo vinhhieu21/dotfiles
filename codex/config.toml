@@ -1,16 +1,16 @@
-# Codex (CLI + desktop) config — shared intent only.
+# Codex (CLI + desktop) config - shared intent only.
 # install.sh copies this to ~/.codex/config.toml ONLY if that file is missing: codex rewrites
 # its config with runtime state (project trust, marketplaces, hook hashes, model NUX), so it
-# is not symlinked. Secrets never live here — MCP keys come from the environment.
+# is not symlinked. Secrets never live here - MCP keys come from the environment.
 
-model = "gpt-5.6-terra"
-model_reasoning_effort = "medium"
+model = "gpt-6-luna"
+model_reasoning_effort = "xhigh"
 plan_mode_reasoning_effort = "xhigh"
 approvals_reviewer = "auto_review"
 tool_output_token_limit = 12000
 web_search = "cached"
 
-# Work profile: set `model_provider = "openrouter"` (+ model) on that machine. The `codex`
+# Work profile: set `model_provider = "openrouter"` (+ model) on that machine. The `codex-work`
 # fish wrapper injects OPENROUTER_API_KEY from the macOS keychain.
 [model_providers.openrouter]
 name = "openrouter"
@@ -90,12 +90,10 @@ appearanceTheme = "dark"
 appearanceLightCodeThemeId = "catppuccin"
 appearanceDarkCodeThemeId = "everforest"
 followUpQueueMode = "queue"
+conversationDetailMode = "STEPS_PROSE"
 dock-icon-preference = "codex-system"
 localeOverride = "en-US"
 show-context-window-usage = true
-
-[desktop.open-in-target-preferences]
-global = "zed"
 
 [desktop.appearanceLightChromeTheme]
 accent = "#8839ef"

@@ -55,19 +55,32 @@ set -g fish_greeting ""
 set -gx EDITOR "cursor --wait"
 set -gx VISUAL "cursor --wait"
 
-# Catppuccin Mocha for CLI tools
-set -gx BAT_THEME "Catppuccin Mocha"
-set -gx FZF_DEFAULT_OPTS "
-  --color=fg:#cdd6f4,bg:-1,hl:#f38ba8 \
-  --color=fg+:#cdd6f4,bg+:#313244,hl+:#f38ba8 \
-  --color=info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc \
-  --color=marker:#f5e0dc,spinner:#f5e0dc,header:#f38ba8
-"
+# Vi-mode cursor shapes. Ghostty's shell-integration cursor handling is off (no-cursor), so fish
+# drives the cursor itself; force is needed because TERM=xterm-ghostty is not in fish's known list.
+set -g fish_cursor_default block
+set -g fish_cursor_insert line
+set -g fish_cursor_replace_one underscore
+set -g fish_cursor_replace underscore
+set -g fish_cursor_visual block
+set -g fish_vi_force_cursor 1
+
+# Ghostty theme (TokyoNight Night / Day, follows macOS appearance) is the single source of truth.
+# Fish syntax colors (conf.d/colors.fish), starship and fzf use the 16 ANSI slots; bat uses the
+# official Tokyo Night editor themes (bat/themes in dotfiles) and picks dark/light from macOS.
+set -gx BAT_THEME auto:system
+set -gx BAT_THEME_DARK tokyonight_night
+set -gx BAT_THEME_LIGHT tokyonight_day
+set -gx FZF_DEFAULT_OPTS "--height=60% --layout=reverse --border=rounded --info=inline-right \
+  --prompt='❯ ' --pointer='▶' --marker='✓' \
+  --color=16,fg+:-1:bold,bg+:-1,hl:2,hl+:2:underline,info:8,prompt:2,pointer:2,marker:3,spinner:5,header:4,border:8,gutter:-1,label:8"
 if command -q fd
     set -gx FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+    set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+    set -gx FZF_ALT_C_COMMAND 'fd --type d --strip-cwd-prefix --hidden --follow --exclude .git'
 end
-# fzf.fish plugin preview
-set -g fzf_preview_file_cmd 'bat --style=numbers --color=always --line-range :500'
+# Previews for the fzf key bindings (ctrl-t files, alt-c dirs) installed by `fzf --fish` below.
+command -q bat; and set -gx FZF_CTRL_T_OPTS "--preview 'bat --style=numbers --color=always --line-range=:300 {}' --preview-window=right:55%:border-left"
+command -q eza; and set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --level=2 --color=always --icons {}' --preview-window=right:45%:border-left"
 
 # Source `<tool> init` output from a cache instead of spawning the tool on every shell.
 # Cache regenerates when the binary is newer than the cache (upgrade) or the cache is missing.
@@ -103,9 +116,16 @@ abbr -a dc docker compose
 abbr -a lzd lazydocker
 
 # ==============================================================================
-# AI CLI wrappers — API keys come from the macOS keychain, never from files:
+# AI CLI wrappers - API keys come from the macOS keychain, never from files:
 #   security add-generic-password -a "$USER" -s openrouter_api_key -w '<key>'
+# Without a keychain (Linux/WSL), export OPENROUTER_API_KEY instead.
 # ==============================================================================
+function __openrouter_key --description "Print the OpenRouter key from the keychain or environment"
+    if command -q security
+        security find-generic-password -a "$USER" -s openrouter_api_key -w 2>/dev/null; and return
+    end
+    set -q OPENROUTER_API_KEY; and echo $OPENROUTER_API_KEY
+end
 
 # Claude Code - Personal Account (Browser Login)
 function claude --wraps=claude --description "Run Claude Code with personal profile (OAuth Login)"
@@ -115,14 +135,14 @@ function claude --wraps=claude --description "Run Claude Code with personal prof
         -u ANTHROPIC_API_KEY \
         -u ANTHROPIC_MODEL \
         CLAUDE_CONFIG_DIR="$HOME/.claude" \
-        command claude $argv
+        claude $argv
 end
 
 # Claude Code - Work Account (OpenRouter)
 function claude-work --wraps=claude --description "Run Claude Code with Work profile (OpenRouter)"
-    set -l k (security find-generic-password -a "$USER" -s openrouter_api_key -w 2>/dev/null)
+    set -l k (__openrouter_key)
     if test -z "$k"
-        echo "Error (claude-work): missing keychain entry 'openrouter_api_key'" >&2
+        echo "Error (claude-work): no 'openrouter_api_key' keychain entry and OPENROUTER_API_KEY is unset" >&2
         return 1
     end
 
@@ -145,14 +165,22 @@ function claude-work --wraps=claude --description "Run Claude Code with Work pro
         ANTHROPIC_DEFAULT_FABLE_MODEL_DESCRIPTION='MoonshotAI Kimi K2.7 Code via OpenRouter · 262k context' \
         ANTHROPIC_DEFAULT_FABLE_MODEL_SUPPORTED_CAPABILITIES='thinking,effort' \
         CLAUDE_CONFIG_DIR="$HOME/.claude-work" \
-        command claude $argv
+        claude $argv
 end
 
-# Codex - OpenRouter (same pattern as claude-work)
-function codex --wraps=codex --description "Run Codex with OpenRouter key from keychain"
-    set -l k (security find-generic-password -a "$USER" -s openrouter_api_key -w 2>/dev/null)
+# Codex - Personal Account (ChatGPT Subscription)
+function codex --wraps=codex --description "Run Codex with ChatGPT subscription (OAuth Login)"
+    # Unset API keys so Codex defaults to ChatGPT auth subscription
+    env -u OPENROUTER_API_KEY \
+        -u OPENAI_API_KEY \
+        codex $argv
+end
+
+# Codex - Work Account (OpenRouter)
+function codex-work --wraps=codex --description "Run Codex with Work profile (OpenRouter)"
+    set -l k (__openrouter_key)
     if test -z "$k"
-        echo "Error (codex): missing keychain entry 'openrouter_api_key'" >&2
+        echo "Error (codex-work): no 'openrouter_api_key' keychain entry and OPENROUTER_API_KEY is unset" >&2
         return 1
     end
 
@@ -162,7 +190,7 @@ function codex --wraps=codex --description "Run Codex with OpenRouter key from k
 
     env -u OPENAI_API_KEY \
         OPENROUTER_API_KEY="$k" \
-        command codex $argv
+        codex $argv
     set -l st $status
 
     set -l bal (OPENROUTER_API_KEY=$k ~/.claude/bin/or-balance.sh 2>/dev/null)
@@ -170,11 +198,12 @@ function codex --wraps=codex --description "Run Codex with OpenRouter key from k
     return $st
 end
 
+
 # OpenCode - OpenRouter (same pattern as codex)
 function opencode2 --wraps=opencode2 --description "Run OpenCode with OpenRouter key from keychain"
-    set -l k (security find-generic-password -a "$USER" -s openrouter_api_key -w 2>/dev/null)
+    set -l k (__openrouter_key)
     if test -z "$k"
-        echo "Error (opencode2): missing keychain entry 'openrouter_api_key'" >&2
+        echo "Error (opencode2): no 'openrouter_api_key' keychain entry and OPENROUTER_API_KEY is unset" >&2
         return 1
     end
 
@@ -187,3 +216,5 @@ end
 alias codex-fast='codex --profile fast'
 alias codex-deep='codex --profile deep'
 alias codex-code='codex --profile code'
+
+test -x "$HOMEBREW_PREFIX/bin/brew"; and eval ($HOMEBREW_PREFIX/bin/brew shellenv fish)
