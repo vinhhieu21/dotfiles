@@ -32,6 +32,15 @@ CheckExcluded() {
 <!=::Send "^+{=}"
 <!-::Send "^+{-}"
 <!0::Send "^+0"
+<!k::Send "^+k"
+<!p::Send "^+p"
+<!n::Send "^+n"
+<!BackSpace::Send "^u"  ; same as Ghostty's cmd+backspace; Shift+Home is unbound in vi mode
+; Cmd+Option+Arrow switches panes, like Ghostty's default goto_split binding.
+#<!Left::Send "^+{Left}"
+#<!Right::Send "^+{Right}"
+#<!Up::Send "^+{Up}"
+#<!Down::Send "^+{Down}"
 
 #HotIf !WinActive("ahk_group ExcludedApps")
 
@@ -47,6 +56,9 @@ CapsLock & F9::Send "{Media_Next}"
 CapsLock & F10::Send "{Volume_Mute}"
 CapsLock & F11::Send "{Volume_Down}"
 CapsLock & F12::Send "{Volume_Up}"
+
+; --- Spotlight: Command Palette's own hotkey is Ctrl+Alt+Shift+Space, so that it stays out of games ---
+<!Space::Send "^!+{Space}"
 
 ; --- Clipboard / editing ---
 <!c::Send "^c"

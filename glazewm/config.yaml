@@ -17,7 +17,7 @@ general:
     enabled: true
     trigger: 'monitor_focus'
   hide_method: 'cloak'
-  show_all_in_taskbar: false
+  show_all_in_taskbar: true    # macOS-dock behaviour: every open app stays in the taskbar; clicking one jumps to its workspace
 
 gaps:
   scale_with_dpi: true
@@ -64,10 +64,9 @@ workspaces:
   - { name: 'C', keep_alive: true }
 
 window_rules:
-  # Never manage games or overlays. mac-keys.ahk also suspends itself for dota2.
+  # Never manage overlays.
   - commands: ['ignore']
     match:
-      - window_process: { equals: 'dota2' }
       - window_process: { equals: 'zebar' }
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
         window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
@@ -96,10 +95,20 @@ window_rules:
       - window_process: { equals: 'PowerToys.Settings' }
 
   # App routing for the apps on this machine, same workspaces as AeroSpace.
+  - commands: ['move --workspace 1']
+    match:
+      - window_process: { regex: '^(steam|steamwebhelper)$' }
+  # Dota 2 runs borderless fullscreen. Floating it pins it to a centered, smaller placement that the
+  # game cannot resize out of, so put it straight into fullscreen. run_once stops the rule from
+  # re-running on later window events and fighting the game.
+  - commands: ['move --workspace 1', 'set-fullscreen']
+    run_once: true
+    match:
+      - window_process: { equals: 'dota2' }
   - commands: ['move --workspace 2']
     match:
       - window_process: { equals: 'brave' }
-  - commands: ['move --workspace 3', 'set-floating --centered']
+  - commands: ['move --workspace 3']
     match:
       - window_process: { equals: 'wezterm-gui' }
   - commands: ['move --workspace Q']
@@ -114,9 +123,6 @@ window_rules:
   - commands: ['move --workspace D']
     match:
       - window_process: { equals: 'Telegram' }
-  - commands: ['move --workspace C']
-    match:
-      - window_process: { regex: '^(steam|steamwebhelper)$' }
 
 binding_modes:
   # AeroSpace's service mode: Win+Shift+; to enter.

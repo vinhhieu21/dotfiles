@@ -8,12 +8,10 @@ local config = wezterm.config_builder()
 local is_windows = wezterm.target_triple:find('windows') ~= nil
 
 ------------------------------------------------------------------ appearance
--- Same palette as Ghostty, following the system light/dark setting. starship, fzf and PSReadLine
--- use ANSI slots, so this is the single source of truth for their colors too.
-local function scheme_for(appearance)
-  return appearance:find('Dark') and 'tokyonight_night' or 'tokyonight_day'
-end
-config.color_scheme = scheme_for(wezterm.gui and wezterm.gui.get_appearance() or 'Dark')
+-- Tokyo Night on a pure black background. starship, fzf and PSReadLine use ANSI slots, so this is
+-- the single source of truth for their colors too.
+config.color_scheme = 'tokyonight_night'
+config.colors = { background = '#000000' }
 
 config.font = wezterm.font_with_fallback {
   {
@@ -28,10 +26,8 @@ config.line_height = 1.1
 config.underline_position = -2
 config.underline_thickness = 1
 
--- Higher than Ghostty's 0.82: that value relies on macOS glass blur. Without blur, light windows
--- behind the terminal bleed through and wash out the background.
-config.window_background_opacity = is_windows and 0.96 or 0.82
-config.macos_window_background_blur = 20
+-- Fully opaque: nothing behind the terminal shows through.
+config.window_background_opacity = 1.0
 config.window_decorations = 'RESIZE'
 config.window_padding = { left = 18, right = 18, top = 16, bottom = 16 }
 config.inactive_pane_hsb = { saturation = 0.9, brightness = 0.7 }
@@ -67,6 +63,9 @@ local mod = is_windows and 'CTRL|SHIFT' or 'CMD'
 local mod_down = is_windows and 'CTRL|SHIFT|ALT' or 'CMD|SHIFT'
 
 config.keys = {
+  -- WezTerm binds Alt+Enter to ToggleFullScreen by default. Left Alt is Cmd here, so Cmd+Enter
+  -- would take the window out of GlazeWM's tiling. Send it to the shell / TUI instead.
+  { key = 'Enter', mods = 'ALT', action = act.DisableDefaultAssignment },
   -- splits
   { key = 'd', mods = mod,      action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
   { key = 'd', mods = mod_down, action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
